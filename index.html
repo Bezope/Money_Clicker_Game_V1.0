@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Clicker</title>
+    <style>
+        *{
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color:dodgerblue;
+            color: white;
+            align-items: center;
+            text-align: center;
+            font-family: sans-serif;
+        }
+        #play_button{
+            margin-top: 10%;
+            background: none;
+
+            animation-name: play1;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-play-state: running;
+        }
+        @keyframes play1{
+            0%{transform: rotateZ(0deg);}
+            100%{transform: rotateZ(-360deg);}
+        }
+        #main{
+            background-color: rgb(30, 144, 255, 0.75);
+            position: sticky;
+            top: 0;
+            
+        }
+        #main #top{
+            color: white;
+            width: 30%;
+
+        }
+        #main h2{
+            color: white;
+            font-size: 3vw;
+            margin: 0, auto;
+            background: none;
+
+        }
+        #cash{
+            margin: 5% 0%;
+            max-width: 50%;
+            min-width: 30%;
+            background-color: none;
+
+            transition: transform 0.2s ease-in-out; 
+            cursor: pointer;
+            /* animation-name: cash1;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+            animation-play-state: running; */
+        }
+        #min_cash{
+            width: 490px;
+        }
+        @keyframes cash1{
+            0%{transform: rotateZ(20deg);}
+            50%{transform: rotateZ(-20deg);}
+            100%{transform: rotateZ(20deg);}
+        }
+        img, p, span{
+            background: none;
+        }
+        p{
+            font-size: 2vw;
+        }
+        .dots{
+            opacity: 0;
+        }
+        #shop_img{
+            border: solid 3px sienna;
+            border-radius: 20%;
+            width: 20%;
+            /* transform: translate(-175%,-250%); */
+            position: fixed;
+            top: 30%;
+            right: 80%;
+        }
+        #shopImage{
+            border: solid 3px sienna;
+            border-radius: 20%;
+            width: 15%;
+            position: sticky;
+            top: 30%;
+        }
+        .shrink-return {
+            animation: shrinkAndReturn 0.1s ease-in-out;
+        }
+
+        /* Keyframe definition for the animation */
+        @keyframes shrinkAndReturn {
+            0% {
+            transform: scale(1); /* Normal size */
+            }
+            50% {
+            transform: scale(0.95); /* Reduced size */
+            }
+            100% {
+            transform: scale(1); /* Return to normal size */
+            }
+        }
+        .shop_items{
+            width: 12vw;
+        }
+        #shop div{
+            background-color: sienna;
+        }
+        #shop{
+            background-color: sienna;
+            align-items: center;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <section id="audio" hidden>
+        <audio src="./background-music-happy-333014.mp3" id="bg" loop></audio>
+        <audio src="./computer-mouse-click-02-383961.mp3" id="click"></audio>
+        <audio src="./retro-coin-4-236671.mp3" id="coins"></audio>
+        <audio src="./error-sx.mp3" id="error-sx"></audio>
+    </section>
+
+    <img src="./Play_button.png" alt="Play Button" id="play_button" onclick="start()">
+
+    <section id="main" hidden>
+        <img src="./title.png" alt="Money_Clicker_Image" id="top" onclick="hide_shop()">
+        <h2>Power💪: <span id="strenght">1</span> <span class="dots">. . . . . . . . .</span> Auto-Clicks⏳: <span id="auto_click">0</span><br>Points💰: $<span id="point">0</span></h2>
+        <img src="cash2.png" alt="Money_Image" id="cash" onclick="click_sound()">
+ 
+    </section>
+
+    <div><img src="./shop_img.png" alt="SHOP" id="shop_img" onclick="show_shop()" hidden></div>
+    <img src="./exit_shop.png" alt="shop_image" id="shopImage" onclick="hide_shop()" hidden><br>
+
+    
+    <section id="shop" hidden>
+        <div id="power-items" hidden>
+            <img src="./power.png" alt="" class="shop_items" onclick="buyPower(200, 1)">
+            <p>+1 power; Cost: $200</p><br>
+            <img src="./power2.png" alt="" class="shop_items" onclick="buyPower(999, 5)">
+            <p>+5 power; Cost: $999</p><br>
+            <img src="./power3.png" alt="" class="shop_items" onclick="buyPower(6870, 35)">
+            <p>+35 power; Cost: $6870</p><br>
+            <img src="./power4.png" alt="" class="shop_items" onclick="buyPower(37500, 200)">
+            <p>+200 power; Cost: $37.5k</p><br>
+            <img src="./power5.png" alt="" class="shop_items" onclick="buyPower(199990, 1000)">
+            <p>+1000 power; Cost: $199.99k</p><br>
+            <img src="./power6.png" alt="" class="shop_items" onclick="buyPower(1000000, 5000)">
+            <p>+5000 power; Cost: $1Million</p><br>
+            <img src="./power7.png" alt="" class="shop_items" onclick="buyPower(10000000, 50000)">
+            <p>+50000 power; Cost: $10Million</p><br>
+            <img src="./power8.png" alt="" class="shop_items" onclick="buyPower(50000000, 250000)">
+            <p>+250000 power; Cost: $50Million</p><br>
+        </div>
+        <div id="auto-items" hidden>
+            <img src="./auto.png" alt="" class="shop_items" onclick="buyAuto(500, 1)">
+            <p>+1 auto-click; Cost: $500</p><br>
+            <img src="./auto2.png" alt="" class="shop_items" onclick="buyAuto(1400, 3)">
+            <p>+3 auto-clicks; Cost: $1400</p><br>
+            <img src="./auto3.png" alt="" class="shop_items" onclick="buyAuto(14750, 30)">
+            <p>+30 auto-clicks; Cost: $14750</p><br>
+            <img src="./auto4.png" alt="" class="shop_items" onclick="buyAuto(99990, 200)">
+            <p>+200 auto-clicks; Cost: $99.99k</p><br>
+            <img src="./auto5.png" alt="" class="shop_items" onclick="buyAuto(599000, 1200)">
+            <p>+1200 auto-clicks; Cost: $599k</p><br>
+            <img src="./auto6.png" alt="" class="shop_items" onclick="buyAuto(3000000, 6000)">
+            <p>+6000 auto-clicks; Cost: $3Million</p><br>
+            <img src="./auto7.png" alt="" class="shop_items" onclick="buyAuto(14999999, 30000)">
+            <p>+30000 auto-clicks; Cost: $15Million</p><br>
+            <img src="./auto8.png" alt="" class="shop_items" onclick="buyAuto(125000000, 250000)">
+            <p>+250000 auto-clicks; Cost: $125Million</p><br>            
+        </div> 
+
+    </section>
+
+
+
+    <script type="text/javascript">
+        const body = document.getElementById('main');
+        const play = document.getElementById('play_button');
+        const s_link = document.getElementById('shop_img');
+        const simg = document.getElementById('shopImage');
+        const music = document.getElementById('bg');
+        const cash = document.getElementById('cash');
+        const shop = document.getElementById('shop');
+        const min =document.getElementById('min_cash')
+        const power_items = document.getElementById('power-items');
+        const auto_items = document.getElementById('auto-items');
+        let money = 0;
+        let auto = parseInt(auto_click.innerText);
+        let power = parseInt(strenght.innerText);
+        
+        const auto_func = () => {
+            setInterval(() => {
+                let click = auto;
+                money += click;
+                point.innerText = process_amount(money);
+                save();
+            }, 1000); 
+        }
+        const start = () => { 
+            s_link.hidden = false;
+            simg.hidden = true;
+            body.hidden = false;
+            play.hidden = true;
+            fetch_val();
+            auto_click.innerText = auto;
+            strenght.innerText = power;
+            point.innerText = process_amount(money);
+            music.play();
+            auto_func();
+        }
+        const show_shop = ()=>{
+            cash.hidden = true;
+            s_link.hidden = true;
+
+            simg.hidden = false;
+            shop.hidden = false;
+            power_items.hidden = false;
+            auto_items.hidden = false;
+        }
+        const hide_shop = ()=>{
+            cash.hidden = false;
+            s_link.hidden = false;
+
+            shop.hidden = true;
+            simg.hidden = true;
+            power_items.hidden = true;
+            auto_items.hidden = true;
+        }
+        const click_function = ()=>{
+            let power = parseInt(strenght.innerText);
+            money += power;
+            point.innerText = process_amount(money);
+        }  
+  
+        const click_sound = ()=>{
+            const audio = document.getElementById('click');
+            audio.play();
+            click_function()
+        }
+        const purchase_audio = ()=>{
+            const audio = document.getElementById('coins');
+            audio.play();
+        }
+        const error_audio = ()=>{
+            const audio = document.getElementById('error-sx');
+            audio.play();
+        }
+        const buyPower = (cost, amount) => {
+            // let power = parseInt(strenght.innerText)
+            if (money >= cost){
+                money -= cost;
+                power += amount;
+                point.innerText = process_amount(money);
+                strenght.innerText = power;
+                purchase_audio();
+            } else{
+                error_audio();
+            }
+        }
+        const buyAuto = (cost, amount) => {
+            // let auto = parseInt(auto_click.innerText);
+            if (money >= cost){
+                money -= cost;
+                auto += amount;
+                auto_click.innerText = auto;
+                point.innerText = process_amount(money);
+                purchase_audio();
+            } else{ 
+                error_audio();
+            }
+        }
+        const round =(num, places) => {
+            const multiplier = Math.pow(10, places);
+            return Math.round(num * multiplier) / multiplier;
+        }
+        const process_amount = (obj) => {
+            if (obj >= 1000 && obj < 1000000){
+                return `${round(obj/1000, 2)}K`;
+            } else if(obj >= 1000000 && obj < 1000000000){
+                return `${round(obj/1000000, 2)}M`;
+            } else if(obj >= 1000000000){
+                return `${round(obj/1000000000, 2)}B`
+            } else{
+                return obj;
+            }  
+        }
+        const save = () => {
+            localStorage.setItem('store_cash', money);
+            localStorage.setItem('store_power', power);
+            localStorage.setItem('store_auto', auto);
+            localStorage.setItem('stored', true);
+        }
+        const fetch_val = () => {
+            if (localStorage.getItem('stored')){
+                money = parseInt(localStorage.getItem('store_cash'));
+                power = parseInt(localStorage.getItem('store_power'));
+                auto = parseInt(localStorage.getItem('store_auto'));
+            } else{
+                return;
+            }
+        }
+        const shrink= () =>{
+            const image = document.getElementById('cash');
+
+            // Add a click event listener
+            image.addEventListener('click', function() {
+                // 1. Add the animation class
+                image.classList.add('shrink-return');
+
+                // 2. Remove the class after the animation completes (0.4s in this example)
+                // This allows the animation to be re-triggered on the next click
+                setTimeout(function() {
+                image.classList.remove('shrink-return');
+                }, 100); // The time here should match the animation duration in CSS
+            });
+        }
+        shrink();
+    </script>
+</body>
+</html>
