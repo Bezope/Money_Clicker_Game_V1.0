@@ -49,8 +49,9 @@
         }
         #cash{
             margin: 5% 0%;
-            max-width: 50%;
-            min-width: 30%;
+            /* max-width: 50%;
+            min-width: 30%; */
+            height: 60vh;
             background-color: none;
 
             transition: transform 0.2s ease-in-out; 
@@ -201,6 +202,29 @@
         let auto = parseInt(auto_click.innerText);
         let power = parseInt(strenght.innerText);
         
+        function lockScreenToLandscape() {
+            // Request fullscreen mode first
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+
+            // Then attempt to lock the screen orientation
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').then(() => {
+                    console.log("Screen locked to landscape");
+                }).catch((err) => {
+                    console.error("Failed to lock orientation:", err);
+                });
+            } else {
+                console.error("Screen Orientation API not supported on this browser/device.");
+            }
+        }
         const auto_func = () => {
             setInterval(() => {
                 let click = auto;
@@ -219,6 +243,7 @@
             strenght.innerText = power;
             point.innerText = process_amount(money);
             music.play();
+            lockScreenToLandscape();
             auto_func();
         }
         const show_shop = ()=>{
