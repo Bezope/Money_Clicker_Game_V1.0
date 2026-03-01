@@ -4,186 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Money Clicker</title>
-    <style>
-        *{
-            margin-top: 0;
-            margin-bottom: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color:dodgerblue;
-            color: white;
-            align-items: center;
-            text-align: center;
-            font-family: sans-serif;
-        }
-        #play_button{
-            margin-top: 10%;
-            background: none;
-
-            animation-name: play1;
-            animation-duration: 2s;
-            animation-iteration-count: infinite;
-            animation-play-state: running;
-        }
-        @keyframes play1{
-            0%{transform: rotateZ(0deg);}
-            100%{transform: rotateZ(-360deg);}
-        }
-        #main{
-            background-color: rgb(30, 144, 255, 0.75);
-            position: sticky;
-            top: 0;
-            
-        }
-        #main #top{
-            color: white;
-            width: 30%;
-
-        }
-        #main h2{
-            color: white;
-            font-size: 3vw;
-            margin: 0, auto;
-            background: none;
-
-        }
-        #cash{
-            margin: 5% 0%;
-            /* max-width: 50%;
-            min-width: 30%; */
-            height: 60vh;
-            background-color: none;
-
-            transition: transform 0.2s ease-in-out; 
-            cursor: pointer;
-            /* animation-name: cash1;
-            animation-duration: 5s;
-            animation-iteration-count: infinite;
-            animation-play-state: running; */
-        }
-        #min_cash{
-            width: 490px;
-        }
-        @keyframes cash1{
-            0%{transform: rotateZ(20deg);}
-            50%{transform: rotateZ(-20deg);}
-            100%{transform: rotateZ(20deg);}
-        }
-        img, p, span{
-            background: none;
-        }
-        p{
-            font-size: 2vw;
-        }
-        .dots{
-            opacity: 0;
-        }
-        #shop_img{
-            border: solid 3px sienna;
-            border-radius: 20%;
-            width: 20%;
-            /* transform: translate(-175%,-250%); */
-            position: fixed;
-            top: 30%;
-            right: 80%;
-        }
-        #shopImage{
-            border: solid 3px sienna;
-            border-radius: 20%;
-            width: 15%;
-            position: sticky;
-            top: 30%;
-        }
-        .shrink-return {
-            animation: shrinkAndReturn 0.1s ease-in-out;
-        }
-
-        /* Keyframe definition for the animation */
-        @keyframes shrinkAndReturn {
-            0% {
-            transform: scale(1); /* Normal size */
-            }
-            50% {
-            transform: scale(0.95); /* Reduced size */
-            }
-            100% {
-            transform: scale(1); /* Return to normal size */
-            }
-        }
-        .shop_items{
-            width: 12vw;
-        }
-        #shop div{
-            background-color: sienna;
-        }
-        #shop{
-            background-color: sienna;
-            align-items: center;
-            display: flex;
-            justify-content: space-evenly;
-        }
-    </style>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
     <section id="audio" hidden>
-        <audio src="./background-music-happy-333014.mp3" id="bg" loop></audio>
-        <audio src="./computer-mouse-click-02-383961.mp3" id="click"></audio>
-        <audio src="./retro-coin-4-236671.mp3" id="coins"></audio>
-        <audio src="./error-sx.mp3" id="error-sx"></audio>
+        <audio src="./audio/background-music-happy-333014.mp3" id="bg" loop></audio>
+
+        <audio src="./audio/computer-mouse-click-02-383961.mp3" id="click"></audio>
+        <audio src="./audio/retro-coin-4-236671.mp3" id="coins"></audio>
+        <audio src="./audio/error-sx.mp3" id="error-sx"></audio>
     </section>
 
-    <img src="./Play_button.png" alt="Play Button" id="play_button" onclick="start()">
-
+    <img src="./images/Play_button.png" alt="Play Button" id="play_button" onclick="start()">
     <section id="main" hidden>
-        <img src="./title.png" alt="Money_Clicker_Image" id="top" onclick="hide_shop()">
+        <img src="./images/title.png" alt="Money_Clicker_Image" id="top" onclick="hide_shop()">
         <h2>Power💪: <span id="strenght">1</span> <span class="dots">. . . . . . . . .</span> Auto-Clicks⏳: <span id="auto_click">0</span><br>Points💰: $<span id="point">0</span></h2>
-        <img src="cash2.png" alt="Money_Image" id="cash" onclick="click_sound()">
- 
+        <img src="./images/cash2.png" alt="Money_Image" id="cash" onclick="click_sound()">
+        <img src="./images/settings.png" id="settingsImg" alt="Settings" onclick="toggleSettings()">
     </section>
 
-    <div><img src="./shop_img.png" alt="SHOP" id="shop_img" onclick="show_shop()" hidden></div>
-    <img src="./exit_shop.png" alt="shop_image" id="shopImage" onclick="hide_shop()" hidden><br>
+    <div><img src="./images/shop_img.png" alt="SHOP" id="shop_img" onclick="show_shop()" hidden></div>
+    <img src="./images/exit_shop.png" alt="shop_image" id="shopImage" onclick="hide_shop()" hidden><br>
+    <section id="settings" hidden>
+        <h1>SETTINGS</h1>
+        <button id="close_settings" onclick="toggleSettings()">X</button>
+        <div>
+            <h1>MUSIC</h1>
+            <button id="music_button" onclick="toggleBgAudio()">ON</button>
+        </div>
+        <div>
+            <h1>SOUNDS</h1>
+            <button id="audio_button" onclick="toggleAudio()">ON</button>
+        </div>
+        <div><p>Note: Your progress is being saved automatically</p></div>
+        <div>
+            
+        </div>
+    </section>
 
     
     <section id="shop" hidden>
         <div id="power-items" hidden>
-            <img src="./power.png" alt="" class="shop_items" onclick="buyPower(200, 1)">
+            <img src="./images/power.png" alt="" class="shop_items" onclick="buyPower(200, 1)">
             <p>+1 power; Cost: $200</p><br>
-            <img src="./power2.png" alt="" class="shop_items" onclick="buyPower(999, 5)">
+            <img src="./images/power2.png" alt="" class="shop_items" onclick="buyPower(999, 5)">
             <p>+5 power; Cost: $999</p><br>
-            <img src="./power3.png" alt="" class="shop_items" onclick="buyPower(6870, 35)">
+            <img src="./images/power3.png" alt="" class="shop_items" onclick="buyPower(6870, 35)">
             <p>+35 power; Cost: $6870</p><br>
-            <img src="./power4.png" alt="" class="shop_items" onclick="buyPower(37500, 200)">
+            <img src="./images/power4.png" alt="" class="shop_items" onclick="buyPower(37500, 200)">
             <p>+200 power; Cost: $37.5k</p><br>
-            <img src="./power5.png" alt="" class="shop_items" onclick="buyPower(199990, 1000)">
+            <img src="./images/power5.png" alt="" class="shop_items" onclick="buyPower(199990, 1000)">
             <p>+1000 power; Cost: $199.99k</p><br>
-            <img src="./power6.png" alt="" class="shop_items" onclick="buyPower(1000000, 5000)">
+            <img src="./images/power6.png" alt="" class="shop_items" onclick="buyPower(1000000, 5000)">
             <p>+5000 power; Cost: $1Million</p><br>
-            <img src="./power7.png" alt="" class="shop_items" onclick="buyPower(10000000, 50000)">
-            <p>+50000 power; Cost: $10Million</p><br>
-            <img src="./power8.png" alt="" class="shop_items" onclick="buyPower(50000000, 250000)">
+            <img src="./images/power7.png" alt="" class="shop_items" onclick="buyPower(50000000, 250000)">
             <p>+250000 power; Cost: $50Million</p><br>
+            <strong>10% Extra</strong>
+            <img src="./images/power8.png" alt="" class="shop_items" onclick="buyPower(1000000000, 5500000)">
+            <p>+5.5M power; Cost: $1Billion</p><br>
         </div>
         <div id="auto-items" hidden>
-            <img src="./auto.png" alt="" class="shop_items" onclick="buyAuto(500, 1)">
+            <img src="./images/auto.png" alt="" class="shop_items" onclick="buyAuto(500, 1)">
             <p>+1 auto-click; Cost: $500</p><br>
-            <img src="./auto2.png" alt="" class="shop_items" onclick="buyAuto(1400, 3)">
+            <img src="./images/auto2.png" alt="" class="shop_items" onclick="buyAuto(1400, 3)">
             <p>+3 auto-clicks; Cost: $1400</p><br>
-            <img src="./auto3.png" alt="" class="shop_items" onclick="buyAuto(14750, 30)">
+            <img src="./images/auto3.png" alt="" class="shop_items" onclick="buyAuto(14750, 30)">
             <p>+30 auto-clicks; Cost: $14750</p><br>
-            <img src="./auto4.png" alt="" class="shop_items" onclick="buyAuto(99990, 200)">
+            <img src="./images/auto4.png" alt="" class="shop_items" onclick="buyAuto(99990, 200)">
             <p>+200 auto-clicks; Cost: $99.99k</p><br>
-            <img src="./auto5.png" alt="" class="shop_items" onclick="buyAuto(599000, 1200)">
+            <img src="./images/auto5.png" alt="" class="shop_items" onclick="buyAuto(599000, 1200)">
             <p>+1200 auto-clicks; Cost: $599k</p><br>
-            <img src="./auto6.png" alt="" class="shop_items" onclick="buyAuto(3000000, 6000)">
+            <img src="./images/auto6.png" alt="" class="shop_items" onclick="buyAuto(3000000, 6000)">
             <p>+6000 auto-clicks; Cost: $3Million</p><br>
-            <img src="./auto7.png" alt="" class="shop_items" onclick="buyAuto(14999999, 30000)">
-            <p>+30000 auto-clicks; Cost: $15Million</p><br>
-            <img src="./auto8.png" alt="" class="shop_items" onclick="buyAuto(125000000, 250000)">
-            <p>+250000 auto-clicks; Cost: $125Million</p><br>            
-        </div> 
-
+            <img src="./images/auto7.png" alt="" class="shop_items" onclick="buyAuto(125000000, 250000)">
+            <p>+250000 auto-clicks; Cost: $125Million</p><br>  
+            <img src="./images/auto8.png" alt="" class="shop_items" onclick="buyAuto(1900000000, 4000000)">
+            <strong>10% off</strong>
+            <p>+4M auto-clicks; Cost: $1.9Billion</p><br>           
+        </div>
     </section>
+    <div id="nextStage" hidden>---More coming soon!---</div>
 
 
 
@@ -195,9 +95,12 @@
         const music = document.getElementById('bg');
         const cash = document.getElementById('cash');
         const shop = document.getElementById('shop');
-        const min =document.getElementById('min_cash')
+        const min = document.getElementById('min_cash');
+        const nextStage = document.getElementById('nextStage');
         const power_items = document.getElementById('power-items');
         const auto_items = document.getElementById('auto-items');
+        const settings = document.getElementById('settings');
+
         let money = 0;
         let auto = parseInt(auto_click.innerText);
         let power = parseInt(strenght.innerText);
@@ -220,9 +123,22 @@
                     console.log("Screen locked to landscape");
                 }).catch((err) => {
                     console.error("Failed to lock orientation:", err);
+                    exitFullScreen();
                 });
             } else {
                 console.error("Screen Orientation API not supported on this browser/device.");
+                exitFullScreen();
+            }
+        }
+        const exitFullScreen =() => {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
             }
         }
         const auto_func = () => {
@@ -236,11 +152,12 @@
         const start = () => { 
             s_link.hidden = false;
             simg.hidden = true;
+            nextStage.hidden = true;
             body.hidden = false;
             play.hidden = true;
             fetch_val();
-            auto_click.innerText = auto;
-            strenght.innerText = power;
+            auto_click.innerText = process_amount(auto);
+            strenght.innerText = process_amount(power);
             point.innerText = process_amount(money);
             music.play();
             lockScreenToLandscape();
@@ -252,6 +169,7 @@
 
             simg.hidden = false;
             shop.hidden = false;
+            nextStage.hidden = false;
             power_items.hidden = false;
             auto_items.hidden = false;
         }
@@ -261,11 +179,12 @@
 
             shop.hidden = true;
             simg.hidden = true;
+            nextStage.hidden = true;
             power_items.hidden = true;
             auto_items.hidden = true;
         }
         const click_function = ()=>{
-            let power = parseInt(strenght.innerText);
+            // let power = parseInt(strenght.innerText);
             money += power;
             point.innerText = process_amount(money);
         }  
@@ -289,7 +208,7 @@
                 money -= cost;
                 power += amount;
                 point.innerText = process_amount(money);
-                strenght.innerText = power;
+                strenght.innerText = process_amount(power);
                 purchase_audio();
             } else{
                 error_audio();
@@ -300,7 +219,7 @@
             if (money >= cost){
                 money -= cost;
                 auto += amount;
-                auto_click.innerText = auto;
+                auto_click.innerText = process_amount(auto);
                 point.innerText = process_amount(money);
                 purchase_audio();
             } else{ 
@@ -313,11 +232,17 @@
         }
         const process_amount = (obj) => {
             if (obj >= 1000 && obj < 1000000){
+                // to display Thousands
                 return `${round(obj/1000, 2)}K`;
             } else if(obj >= 1000000 && obj < 1000000000){
+                // to display Millions
                 return `${round(obj/1000000, 2)}M`;
             } else if(obj >= 1000000000){
+                // to display Billions
                 return `${round(obj/1000000000, 2)}B`
+            } else if(obj >= 1000000000){
+                // to display Trillins
+                return `${round(obj/1000000000000, 2)}T`
             } else{
                 return obj;
             }  
@@ -351,6 +276,52 @@
                 image.classList.remove('shrink-return');
                 }, 100); // The time here should match the animation duration in CSS
             });
+        }
+        
+        const toggleSettings = () => {
+            if(settings.hidden == false){
+                settings.hidden = true;
+            } else {
+                settings.hidden = false;
+            }
+
+        }
+        const toggleBgAudio = () => {
+            const button = document.getElementById('music_button');
+            if(music.muted == true){
+                music.muted = false;
+                button.style.backgroundColor = `rgb(${0}, ${255}, ${0})`;
+                music_button.innerHTML = button;
+                music_button.innerText = 'ON'
+            } else {
+                music.muted = true;
+                button.style.backgroundColor = 'red';
+                music_button.innerHTML = button;
+                music_button.innerText = 'OFF'
+            }
+            click_sound();
+        }
+        const toggleAudio = () => {
+            const button = document.getElementById('audio_button');
+            const a = document.getElementById('click');
+            const b = document.getElementById('coins');
+            const c = document.getElementById('error-sx');
+            if(a.muted == true){
+                a.muted = false;
+                b.muted = false;
+                c.muted = false;
+                button.style.backgroundColor = `rgb(${0}, ${255}, ${0})`;
+                music_button.innerHTML = button;
+                music_button.innerText = 'ON'
+            } else {
+                a.muted = true;
+                b.muted = true;
+                c.muted = true;
+                button.style.backgroundColor = 'red';
+                music_button.innerHTML = button;
+                music_button.innerText = 'OFF'
+            }
+            click_sound();
         }
         shrink();
     </script>
